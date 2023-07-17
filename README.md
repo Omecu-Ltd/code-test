@@ -79,7 +79,8 @@ challenge.
 
 Working Example:
 
-https://cdn.omecu.com/code-test.mp4
+https://github.com/Omecu-Ltd/code-test/assets/85376634/ee20bec2-beb5-43b2-a1f4-2ab1403d1655
+
 
 ## Available Scripts
 
