@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import ModelCard from "./ModelCard";
-import { Model } from "../@types/models"; // adjust this import as per your actual Model interface
+import { Model } from "../@types/models";
 
 interface ModelsListProps {
     models: Model[];
