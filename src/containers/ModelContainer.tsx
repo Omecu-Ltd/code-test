@@ -16,6 +16,8 @@ function ModelContainer({models}: ModelContainerProps) {
     * The options variable needs to be filled with the relevant options, grouped by the attribute type:
     * Eye Colour: blue, green, etc...
     * Hair Colour: blond, auburn, etc...
+    * See the following link for info on how the MUI Autocomplete component expects options
+    * https://mui.com/material-ui/react-autocomplete/#grouped
     */
     let options: Option[] = [];
 
