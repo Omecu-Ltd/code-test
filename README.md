@@ -7,8 +7,7 @@ agency. The agency has a catalogue of hundreds of models (the Gisele Bündchen k
 upcoming video shoot they need to be able to easily find models with specific facial attributes (namely, eye and hair
 colour).
 
-The provided code is a well-structured skeleton, complete with tests. In order to fulfil the development work, you need
-to complete 3 things. These are listed below in the [requirements](#the-requirements).
+The provided code is a well-structured skeleton, complete with tests. In order to fulfil the development work, you need to Fork this public repository and make 3 things modifications/additions to the code. These are listed below in the [requirements](#the-requirements). Once done you should create a PR (Pull Request) to submit your work.
 
 ## The Repository
 
@@ -55,6 +54,8 @@ The elements in the above directory tree that are relevant to you are as follows
   the logic that applies the filter and render of the models resides (or, should reside once you have coded it!)
 
 ## The Requirements
+
+**_In order to perform the modifications to the code make sure to fork this public repository. In order to submit it you should create a PR._** 
 
 There are 3 stages to this code test:
 
