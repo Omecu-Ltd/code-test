@@ -19,18 +19,29 @@ function ModelContainer({models}: ModelContainerProps) {
     * See the following link for info on how the MUI Autocomplete component expects options
     * https://mui.com/material-ui/react-autocomplete/#grouped
     */
-    let options: Option[] = [];
+   const eyeColours = [...new Set(models.map(model => model.facial_attributes.eye_colour))].map(m => ({group: 'Eye Colour', value: m}))
+   const hairColours = [...new Set(models.map(model => model.facial_attributes.hair_colour))].map(m => ({group: 'Hair Colour', value: m}))
+
+    let options: Option[] = [...eyeColours, ...hairColours];
 
     const [filteredModels, setFilteredModels] = useState(models);
     const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-
-    /*
-    * Step 3.
-    * The filterModels function needs to be implemented and called in the relevant place
-    */
-    // const filterModels = () => {}
-
-
+    
+    const filterModels = function (models: any, selectedOptions: any) {
+        if (selectedOptions && selectedOptions.length === 0) return models
+        return models.filter((m: Model) => {
+            const allowedHairs = selectedOptions
+                .filter((o: Option) => o.group === 'Hair Colour')
+                .map((o: Option) => o.value)
+            const allowedEyes = selectedOptions
+                .filter((o: Option) => o.group === 'Eye Colour')
+                .map((o: Option) => o.value)
+            return allowedEyes.includes(m.facial_attributes.eye_colour)
+                || allowedHairs.includes(m.facial_attributes.hair_colour)
+        })
+    }
+    
+    const workingModels = filterModels(filteredModels, selectedOptions)
     return (
         <>
             <Box
@@ -58,7 +69,7 @@ function ModelContainer({models}: ModelContainerProps) {
                 </Container>
             </Box>
             <Container sx={{py: 8}} maxWidth="md">
-                <ModelsList models={filteredModels}/>
+                <ModelsList models={workingModels}/>
             </Container>
         </>
     );
