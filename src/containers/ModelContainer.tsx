@@ -11,16 +11,8 @@ type ModelContainerProps = {
 }
 
 function ModelContainer({models}: ModelContainerProps) {
-    /*
-    * Step 2.
-    * The options variable needs to be filled with the relevant options, grouped by the attribute type:
-    * Eye Colour: blue, green, etc...
-    * Hair Colour: blond, auburn, etc...
-    * See the following link for info on how the MUI Autocomplete component expects options
-    * https://mui.com/material-ui/react-autocomplete/#grouped
-    */
-   const eyeColours = [...new Set(models.map(model => model.facial_attributes.eye_colour))].map(m => ({group: 'Eye Colour', value: m}))
-   const hairColours = [...new Set(models.map(model => model.facial_attributes.hair_colour))].map(m => ({group: 'Hair Colour', value: m}))
+   const eyeColours = [...new Set(models.map(model => model.facial_attributes.eye_colour))].map(m => ({group: 'Eye Colour', value: m.toLowerCase()}))
+   const hairColours = [...new Set(models.map(model => model.facial_attributes.hair_colour))].map(m => ({group: 'Hair Colour', value: m.toLowerCase()}))
 
     let options: Option[] = [...eyeColours, ...hairColours];
 
@@ -36,8 +28,11 @@ function ModelContainer({models}: ModelContainerProps) {
             const allowedEyes = selectedOptions
                 .filter((o: Option) => o.group === 'Eye Colour')
                 .map((o: Option) => o.value)
-            return allowedEyes.includes(m.facial_attributes.eye_colour)
-                || allowedHairs.includes(m.facial_attributes.hair_colour)
+            if (allowedEyes.length && allowedHairs.length)
+                return allowedEyes.includes(m.facial_attributes.eye_colour) && allowedHairs.includes(m.facial_attributes.hair_colour)
+            else if (allowedEyes.length) return allowedEyes.includes(m.facial_attributes.eye_colour)
+            else if (allowedHairs.length) return allowedHairs.includes(m.facial_attributes.hair_colour)
+            else return selectedOptions
         })
     }
     

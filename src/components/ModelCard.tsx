@@ -14,13 +14,13 @@ function ModelCard({id, name, facial_attributes, portrait_url}: Model) {
             <img src={portrait_url} height='70%' style={{objectFit: 'cover' }} />
             <div style={{textAlign: "center"}}>
                 <Typography>
-                    Name: {name}
+                   {name}
                 </Typography>
                 <Typography>
-                    Eye Colour: {capitalize(facial_attributes.eye_colour)}
+                    {facial_attributes.eye_colour}
                 </Typography>
                 <Typography>
-                    Hair Colour: {capitalize(facial_attributes.hair_colour)}
+                    {facial_attributes.hair_colour}
                 </Typography>
             </div>
         </Card>
