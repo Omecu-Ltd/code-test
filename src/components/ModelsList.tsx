@@ -9,7 +9,7 @@ interface ModelsListProps {
 
 const ModelsList = ({models}: ModelsListProps) => {
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={6} padding={0}>
             {models.map((model) => (
                 <Grid item key={model.id} xs={12} sm={6} md={4}>
                     <ModelCard {...model} />

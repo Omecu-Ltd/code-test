@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
 import ModelsFilter from "../components/ModelsFilter";
 import ModelsList from "../components/ModelsList";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Option } from "../@types/mui";
 import { Model } from "../@types/models";
 
@@ -18,18 +18,52 @@ function ModelContainer({models}: ModelContainerProps) {
     * Hair Colour: blond, auburn, etc...
     * See the following link for info on how the MUI Autocomplete component expects options
     * https://mui.com/material-ui/react-autocomplete/#grouped
+    * 
     */
-    let options: Option[] = [];
 
+    let options: Option[] = [];
     const [filteredModels, setFilteredModels] = useState(models);
     const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+
+
+
+        useEffect(() => {
+        filterModels()
+      }, [selectedOptions])
+
+        
+        models.map((model) => {
+        const newEyeOption = {group: "Eye Colour", value: model.facial_attributes.eye_colour.toString()}
+        const newHairOption = {group: "Hair Colour", value: model.facial_attributes.hair_colour.toString()}
+        if(!options.some((option) => option.group === newEyeOption.group && option.value === newEyeOption.value)){
+        options.push(newEyeOption)
+        } else if (!options.some((option) => option.group === newHairOption.group && option.value === newHairOption.value)){
+        options.push(newHairOption)
+        }})
+
+        const filterModels = () => {
+        if(selectedOptions.length === 0){
+            setFilteredModels(models)
+        } else {
+        const matchingModels = models.filter((model) => {
+        return selectedOptions.some((option) => {
+        if (option.group === "Eye Colour") {
+        return model.facial_attributes.eye_colour === option.value;
+        } else if (option.group === "Hair Colour") {
+        return model.facial_attributes.hair_colour === option.value;
+        } 
+        return false;
+        });
+        });
+        setFilteredModels(matchingModels);
+        }
+};
 
     /*
     * Step 3.
     * The filterModels function needs to be implemented and called in the relevant place
     */
     // const filterModels = () => {}
-
 
     return (
         <>
@@ -57,7 +91,7 @@ function ModelContainer({models}: ModelContainerProps) {
                     <ModelsFilter options={options} setSelectedOptions={setSelectedOptions}/>
                 </Container>
             </Box>
-            <Container sx={{py: 8}} maxWidth="md">
+            <Container sx={{py: 8}} maxWidth="lg">
                 <ModelsList models={filteredModels}/>
             </Container>
         </>
