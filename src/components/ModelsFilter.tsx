@@ -14,9 +14,7 @@ function ModelsFilter({ options, setSelectedOptions }: ModelsFilterProps) {
       id="tags-standard"
       options={options}
       getOptionLabel={(option) => option.value}
-      groupBy={(option) =>
-        option.group_label ? option.group_label : option.group
-      }
+      groupBy={(option) => option.group}
       defaultValue={[]}
       isOptionEqualToValue={(option, value) =>
         option.value === value.value && option.group === value.group
@@ -30,9 +28,7 @@ function ModelsFilter({ options, setSelectedOptions }: ModelsFilterProps) {
         value.map((option, index) => (
           <Chip
             variant="outlined"
-            label={`${
-              option.group_label ? option.group_label : option.group
-            }: ${option.value}`}
+            label={`${option.group}: ${option.value}`}
             {...getTagProps({ index })}
           />
         ))

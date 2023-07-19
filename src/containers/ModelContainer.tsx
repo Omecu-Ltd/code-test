@@ -18,20 +18,25 @@ function ModelContainer({ models }: ModelContainerProps) {
    * See the following link for info on how the MUI Autocomplete component expects options
    * https://mui.com/material-ui/react-autocomplete/#grouped
    */
-  let options: Option[] = [
-    { group: "eye_colour", value: "brown", group_label: "Eye Colour" },
-    { group: "eye_colour", value: "amber", group_label: "Eye Colour" },
-    { group: "eye_colour", value: "hazel", group_label: "Eye Colour" },
-    { group: "eye_colour", value: "green", group_label: "Eye Colour" },
-    { group: "eye_colour", value: "blue", group_label: "Eye Colour" },
-    { group: "eye_colour", value: "grey", group_label: "Eye Colour" },
-    { group: "hair_colour", value: "black", group_label: "Hair Colour" },
-    { group: "hair_colour", value: "brown", group_label: "Hair Colour" },
-    { group: "hair_colour", value: "auburn", group_label: "Hair Colour" },
-    { group: "hair_colour", value: "red", group_label: "Hair Colour" },
-    { group: "hair_colour", value: "blond", group_label: "Hair Colour" },
-    { group: "hair_colour", value: "grey", group_label: "Hair Colour" },
-  ];
+
+  const eyeColours = [
+    ...new Set(
+      models.map(({ facial_attributes: { eye_colour } }) => eye_colour)
+    ),
+  ].map((eyeColours) => ({
+    group: "Eye Colour",
+    value: eyeColours.toLowerCase(),
+  }));
+  const hairColours = [
+    ...new Set(
+      models.map(({ facial_attributes: { hair_colour } }) => hair_colour)
+    ),
+  ].map((hairColours) => ({
+    group: "Hair Colour",
+    value: hairColours.toLowerCase(),
+  }));
+
+  let options: Option[] = [...eyeColours, ...hairColours];
 
   const [filteredModels, setFilteredModels] = useState(models);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -42,20 +47,22 @@ function ModelContainer({ models }: ModelContainerProps) {
    */
 
   const filterModels = useCallback(() => {
-    if (selectedOptions.length > 0) {
+    if (selectedOptions.length > 0 && options.length > 0) {
       return models.filter((model) =>
         selectedOptions.some(
           (option) =>
             option.value ===
             model.facial_attributes[
-              option.group as "hair_colour" | "eye_colour"
+              option.group.toLowerCase().split(" ").join("_") as
+                | "hair_colour"
+                | "eye_colour"
             ]
         )
       );
     } else {
       return models;
     }
-  }, [models, selectedOptions]);
+  }, [models, options.length, selectedOptions]);
 
   useEffect(() => {
     setFilteredModels(filterModels());
